@@ -22,6 +22,10 @@ Then install the modules using the following command:
 It will automatically install all dependent libraries required (there is one in this project 
 which is the 'pygame'). The dot . indicates that the command is run from the directory of the project.
 
+After the module was successfully installed, you can try open the ipython notebook 'runner.ipynb' which
+introduces basic usage of the package (make sure to open it in the environment you previously installed 
+the package in).
+
 ## List of Modules
 - cell.py: contains the class Cell with methods to add walls and remove walls
 - maze.py: contains the class Maze with methods to generate a maze and to display it
@@ -37,3 +41,4 @@ a picture and to display the maze in a window
 - algorithms.py: contains 3 algorithms to generate the maze given a rectangular grid - a blank Maze object
 or a Maze object with only solution path generated from MessagePath
 - visualize_algorithms.py: contains 3 algorithms as above but were modified for visualization purpose
+
