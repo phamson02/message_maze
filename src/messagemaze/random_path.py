@@ -2,49 +2,52 @@ from .maze import Maze
 from random import randint, shuffle
 from typing import Tuple
 
-
-def RandomPattern(size: Tuple[int, int], start: Tuple[int, int], end: Tuple[int, int], recur=0) -> Maze:
+def generate_random_steps(start: Tuple[int, int], end: Tuple[int, int], max_vars: Tuple[int, int]) -> list:
     """
-    Return a random maze with the given size.
+    Generate random steps for the maze path between start and end points.
+
+    Args:
+        start (Tuple[int, int]): The starting position in the maze (row, column).
+        end (Tuple[int, int]): The end position in the maze (row, column).
+        max_vars (Tuple[int, int]): The maximum allowed additional steps in x and y directions.
+        
+    Returns:
+        list: A shuffled list of steps.
     """
-    # Compute the distance between the start and end points
-    dy = end[0] - start[0]
-    dx = end[1] - start[1]
+    dx, dy = end[1] - start[1], end[0] - start[0]
+    var_x, var_y = randint(0, max_vars[0]), randint(0, max_vars[1])
 
-    # Number of addtional steps going right and down
-    if recur < 3:
-        var_x = randint(0, size[1]//3)
-        var_y = randint(0, size[0]//3)
+    steps = [(1, 0) if dx > 0 else (-1, 0)] * abs(dx) + \
+            [(0, 1) if dy > 0 else (0, -1)] * abs(dy) + \
+            [(1, 0)] * var_x + [(-1, 0)] * var_x + [(0, 1)] * var_y + [(0, -1)] * var_y
+
+    shuffle(steps)
+    return steps
+
+def random_pattern(size: Tuple[int, int], start: Tuple[int, int], end: Tuple[int, int], retry_count: int = 0) -> Maze:
+    """
+    Generate a random maze with the given size, start, and end points.
+    
+    Args:
+        size (Tuple[int, int]): The dimensions of the maze (rows, columns).
+        start (Tuple[int, int]): The starting position in the maze (row, column).
+        end (Tuple[int, int]): The end position in the maze (row, column).
+        retry_count (int, optional): The number of retries so far. Defaults to 0.
+        
+    Returns:
+        Maze: A randomly generated maze instance.
+    """
+    
+    if retry_count < 3:
+        steps = generate_random_steps(start, end, (size[1]//3, size[0]//3))
     else:
-        var_x = 0
-        var_y = 0
-
-    # Compute the number of steps to take
-
-    # Add the required steps to get to the end point
-    steps = []
-    if dx > 0:
-        steps += [(1, 0)] * dx
-    else:
-        steps += [(-1, 0)] * -dx
-
-    if dy > 0:
-        steps += [(0, 1)] * dy
-    else:
-        steps += [(0, -1)] * -dy
-
-    # Add the additional steps (variance in the path)
-    steps += [(1, 0)] * var_x
-    steps += [(-1, 0)] * var_x
-    steps += [(0, 1)] * var_y
-    steps += [(0, -1)] * var_y
+        steps = generate_random_steps(start, end, (0, 0))
 
     # Create a blank maze
     maze = Maze.Blank(*size)
     maze.set_start(*start)
     maze.set_end(*end)
 
-    shuffle(steps)
     current_cell = maze.start
     maze.solution_path.append(current_cell)
     seq = []
@@ -61,7 +64,7 @@ def RandomPattern(size: Tuple[int, int], start: Tuple[int, int], end: Tuple[int,
         n_move += 1
         seq.append(current_cell)
         if n_move > thred and len(set(seq[-thred:])) == 1:
-            return RandomPattern(size, start, end, recur+1)
+            return random_pattern(size, start, end, retry_count+1)
 
         dx, dy = steps.pop(0)
 

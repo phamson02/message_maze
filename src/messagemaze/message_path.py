@@ -1,6 +1,6 @@
 from .maze import Maze
 from .combine import combine_vertically, combine_horizontally
-from .random_path import RandomPattern
+from .random_path import random_pattern
 from random import randint
 
 
@@ -86,28 +86,28 @@ class MessageSolutionPath:
             left_maze_start = start
             left_maze_end = (chars_maze.start_cell().i, left_maze_size[1]-1)
 
-            left_maze = RandomPattern(
+            left_maze = random_pattern(
                 left_maze_size, left_maze_start, left_maze_end)
 
             right_maze_start = (chars_maze.end_cell().i, 0)
             right_maze_end = (
                 end[0], end[1] - left_maze_size[1] - chars_maze.shape[1])
 
-            right_maze = RandomPattern(
+            right_maze = random_pattern(
                 right_maze_size, right_maze_start, right_maze_end)
 
         if start[1] > end[1]:
             left_maze_start = (chars_maze.start_cell().i, left_maze_size[1]-1)
             left_maze_end = end
 
-            left_maze = RandomPattern(
+            left_maze = random_pattern(
                 left_maze_size, left_maze_end, left_maze_start)
 
             right_maze_start = (start[0], start[1] -
                                 left_maze_size[1] - chars_maze.shape[1])
             right_maze_end = (chars_maze.end_cell().i, 0)
 
-            right_maze = RandomPattern(
+            right_maze = random_pattern(
                 right_maze_size, right_maze_end, right_maze_start)
 
         row = combine_horizontally([left_maze, chars_maze, right_maze])
