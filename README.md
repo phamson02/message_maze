@@ -2,6 +2,15 @@
 
 ![Message maze](fungame_solution.png)
 
+## Acknowledgement
+
+We would like to thank [Prof. Muriel Visani](https://pageperso.univ-lr.fr/mvisani/) for her guidance and support throughout the project. She encouraged us all to choose original problems to work on and rejected any ideas that were too simple or had already been solved. If it weren't for her, we might have ended up developing something like a Minesweeper game or a Sudoku solver.
+
+We were intrigued by the concept of the message maze, and after some internet research, we found no open-source algorithms or implementations doing the same thing. The only implementation we found was [Mazebrite.com](https://www.mazebrite.com/). Since it was closed source, we had a fun time figuring out how to work out the implementation ourselves, using the site letter's font (solution path of each letter) and using the output from the site as our inspiration and objective. Thus we kindly thank Dr. David Grossman for his work on Mazebrite.com.
+
+We also kindly request that any other users who utilize our implementation include an acknowledgment of the pioneering work of Dr. David Grossman and Mazebrite.com in their documentation or project descriptions.
+
+
 ## Introduction
 
 `messagemaze` is a Python package for generating message mazes - a type of maze where a solution path spells out a message. With this package, you can easily create and customize your maze game with unique messages.
